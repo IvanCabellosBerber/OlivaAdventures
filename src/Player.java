@@ -3,12 +3,13 @@ import java.awt.event.KeyEvent;
 public class Player {
 
     //ATTRIBUTES
-    private byte lives = 3;
+    private byte lives;
     private boolean dead;
 
     //CONSTRUCTOR
     public Player(){
-
+        this.lives = 3;
+        this.dead = false;
     }
 
     //GETTERS AND SETTERS
