@@ -4,6 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        /*
         Player player = new Player();
 
         Enemy enemy1 = new Enemy(Enemy.typeEnemies.type1);
@@ -29,6 +30,9 @@ public class Main {
         System.out.println(
                 player.toString()
         );
+        */
+
+        GameEngine gameEngine = new GameEngine();
 
     }
 
