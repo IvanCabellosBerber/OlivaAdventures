@@ -1,3 +1,5 @@
+package olivaAdventures;
+
 import java.awt.event.KeyEvent;
 
 public class Player {

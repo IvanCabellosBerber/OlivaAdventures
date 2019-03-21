@@ -1,3 +1,5 @@
+package olivaAdventures;
+
 public class Enemy {
 
     //ATTRIBUTTES
