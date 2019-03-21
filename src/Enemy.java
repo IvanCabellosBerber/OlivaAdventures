@@ -4,6 +4,7 @@ public class Enemy {
     private byte lives;
     private String typeEnemy;
 
+        /* Type of enemies */
     enum typeEnemies{
         type1,
         type2,

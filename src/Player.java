@@ -52,12 +52,11 @@ public class Player {
     //TO STRING
     @Override
     public String toString() {
-        if (getLives() <= 0){
-            return "Your player is dead";
-        } else {
-            return "Player{" +
-                    "\nlives=" + lives +
-                    "\n}\n";
-        }
+
+        return "Player{" +
+                "\nlives=" + lives +
+                "\nisDead = " + dead +
+                "\n}\n";
+
     }
 }
