@@ -1,31 +1,34 @@
 package olivaAdventures;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
+/**
+ * @author kryon
+ */
 public class GameEngineLVL1 implements KeyListener {
 
-    private boolean gameOver=false,par=false,saltando=false;
-    private int contador=0,ejeX=0,ejeY=0,contadorSalto=0;
-    MyPanel panel = new MyPanel();
-    JFrame frame = new JFrame("Oliva Adventures");
+    private boolean saltando=false;
+    private int contador=0,ejeX=0,ejeY=0,contadorSalto=0,prevY=0;
+    private PanelLVL1 panel = new PanelLVL1();
+    private Player player = new Player();
 
-    public GameEngineLVL1(){
+    GameEngineLVL1(){
 
+        JFrame frame = new JFrame("Oliva Adventures");
         frame.setSize(800,800);
         frame.setResizable(false);
         frame.addKeyListener(this);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
 
-        // add panel to main frame
         frame.add(panel);
 
         frame.setVisible(true);
 
-        secuencia();
+        arrancar();
 
     }
 
@@ -43,10 +46,22 @@ public class GameEngineLVL1 implements KeyListener {
 
                 ejeX+=20;
 
+                if(!saltando) {
+
+                    contadorSalto = 16;
+                    saltando = true;
+                }
+
                 break;
             case KeyEvent.VK_A:
 
                 ejeX-=20;
+
+                if(!saltando) {
+
+                    contadorSalto = 16;
+                    saltando = true;
+                }
 
                 break;
 
@@ -58,10 +73,9 @@ public class GameEngineLVL1 implements KeyListener {
                     saltar();
 
                 }
-
-
                 break;
-            default:;
+
+            default:
         }
 
     }
@@ -71,55 +85,24 @@ public class GameEngineLVL1 implements KeyListener {
 
     }
 
-    class MyPanel extends JPanel {
-        public void paint(Graphics g) {
 
-            g.setColor(Color.gray);
-            g.fillRect(0,0,1000,1000);
-
-            if(!par) {
-                g.setColor(Color.red);
-                g.fillRect(0, 720, 1500, 50);
-            }
-            else{
-                g.setColor(Color.blue);
-                g.fillRect(0, 720, 1500, 50);
-            }
-
-            g.setColor(Color.black);
-            g.fillRect(900-ejeX,300,50,100);
-
-            g.setColor(Color.yellow);
-            g.fillRect(350,700-ejeY,20,35);
-        };
-    }
-
-    public void saltar(){
-
+    private void saltar(){
         contadorSalto=0;
-
         saltando=true;
-
     }
 
-    public void fps(){
+    private void fps(){
 
         if(saltando&&contador%2==0){
 
-            if(contadorSalto>1&&contadorSalto<5) {
-
+            if(contadorSalto>=0&&contadorSalto<5) {
                 ejeY += 35;
-
             }
             else if(contadorSalto>4&&contadorSalto<8){
-
                 ejeY+=20;
-
             }
             else if(contadorSalto>7&&contadorSalto<12){
-
                 ejeY+=10;
-
             }
             else if(contadorSalto>11&&contadorSalto<15){
 
@@ -128,48 +111,99 @@ public class GameEngineLVL1 implements KeyListener {
             }
             else if(contadorSalto==15){
 
-                //TE JODES
+                prevY=700-ejeY;
 
             }
-            else if (contadorSalto > 15){
+            else if((contadorSalto>15&&contadorSalto<20)&& !panel.isGround(ejeX, ejeY, prevY)){
 
+                prevY=700-ejeY;
+                ejeY-=5;
+
+            }
+            else if((contadorSalto>19&&contadorSalto<25)&& !panel.isGround(ejeX, ejeY, prevY)){
+
+                prevY=700-ejeY;
                 ejeY-=10;
-            }
 
-            if(contadorSalto>43){
+            }
+            else if(contadorSalto>24&& !panel.isGround(ejeX, ejeY, prevY)){
+
+                prevY=700-ejeY;
+                ejeY-=20;
+
+            }
+            else{
 
                 saltando=false;
+
+            }
+
+            if(/*panel.isGround(ejeX,ejeY,prevY)==true || */700+ejeY<=700){
+
+                saltando=false;
+                ejeY=0;
 
             }
 
             contadorSalto++;
         }
 
+        panel.setX(ejeX);
+        panel.setY(ejeY);
         panel.repaint();
 
     }
 
-    public void secuencia(){
+    /*
+    public void gravedad(){
+
+        if(!saltando){
+            if(panel.isGround(0,700-panel.getY()+35,700-panel.getY()-35)){
+
+                contadorSalto=16;
+                saltando=true;
+            }
+        }
+    }
+
+    public void recibirDisparo(){
+        boolean tocado = false;
+
+        if (ejeX == (800 - ejeX)){
+            tocado = true;
+        }
+
+        if (tocado){
+            player.getHurt();
+        }
+
+    }
+    */
+
+    private void arrancar(){
+
+        boolean gameOver = false;
+        int puntuacion = 360;
 
         while(!gameOver){
 
+//          gravedad();
             fps();
-
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                //HA PETAO
+            if (player.isDead()){
+                gameOver = true;
             }
 
-//            if(contador%2==0){
-//                par=true;
-//            }
-//            else{
-//                par=false;
-//            }
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                System.err.println("HA PETADO");
+            }
+            if(contador%50==0){
+                puntuacion--;
+                System.out.println(puntuacion);
+            }
 
             contador++;
-
         }
 
     }

@@ -49,8 +49,19 @@ public class Enemy {
     }
 
     //FUNCTIONS
-    public void getPosition(){
-        //getPositionPlayer();
+    public char getPosition(typeEnemies typeEnemies){
+        switch (typeEnemies){
+
+            case type1:
+                return '1';
+            case type2:
+                return '2';
+            case boss:
+                return '3';
+
+        }
+
+        return ' ';
     }
 
     //TO STRING
