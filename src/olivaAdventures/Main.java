@@ -32,7 +32,7 @@ public class Main {
         );
         */
 
-        GameEngine gameEngine = new GameEngine();
+        GameEngineLVL1 gameEngine = new GameEngineLVL1();
 
     }
 

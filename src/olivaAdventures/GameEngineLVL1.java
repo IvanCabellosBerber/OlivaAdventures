@@ -6,14 +6,14 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
-public class GameEngine implements KeyListener {
+public class GameEngineLVL1 implements KeyListener {
 
     private boolean gameOver=false,par=false,saltando=false;
     private int contador=0,ejeX=0,ejeY=0,contadorSalto=0;
     MyPanel panel = new MyPanel();
     JFrame frame = new JFrame("Oliva Adventures");
 
-    public GameEngine(){
+    public GameEngineLVL1(){
 
         frame.setSize(800,800);
         frame.setResizable(false);
